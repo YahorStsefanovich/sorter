@@ -25,24 +25,21 @@ class Sorter {
         indices = indices.sort();
 
         let temp = [];
-        if (this.compareFunction){
-            temp = this.sorter.slice(indices[0], indices[indices.length - 1]+1).sort(this.compareFunction)
-            }else {
-            temp = this.sorter.slice(indices[0], indices[indices.length - 1]+1).sort(function (a,b) {
-                return a - b;
-            });
-            if (typeof (temp[0])==="string"){
-                temp = temp.sort(function (a,b) {
-                    return b.length - a.length;
-                });
-            }
+        for (let i = 0; i < indices.length; i++){
+            temp.push(this.sorter[indices[i]]);
         }
 
+        if (this.compareFunction){
+            temp = temp.sort(this.compareFunction);
+        }else {
+            temp = temp.sort(function (a,b) {
+                return a - b;
+            });
+        }
 
         for (let i = 0; i < indices.length; i++){
             this.sorter[indices[i]] = temp[i];
         }
-
     }
 
 
