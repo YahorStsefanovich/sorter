@@ -22,43 +22,34 @@ class Sorter {
     }
 
     sort(indices) {
+        indices = indices.sort();
+
+        let temp = [];
         if (this.compareFunction){
-            return this.sorter.sort(this.compareFunction);
-        }
-        let mass = [], j = 0;
-        for (let i = 0; i < indices.length; i++)
-        {
-            let index = indices[i];
-            if (this.sorter[index]) {
-                mass[j] = this.sorter[index];
-                j++;
+            temp = this.sorter.slice(indices[0], indices[indices.length - 1]+1).sort(this.compareFunction)
+            }else {
+            temp = this.sorter.slice(indices[0], indices[indices.length - 1]+1).sort(function (a,b) {
+                return a - b;
+            });
+            if (typeof (temp[0])==="string"){
+                temp = temp.sort(function (a,b) {
+                    return b.length - a.length;
+                });
             }
         }
-        mass.sort();
-        for (let i = 0; i < indices.length; i++)
-        {
-            let index = indices[i];
-            this.sorter[index] = mass[i];
+
+
+        for (let i = 0; i < indices.length; i++){
+            this.sorter[indices[i]] = temp[i];
         }
+
     }
+
 
   setComparator(compareFunction) {
     // your implementation
     this.compareFunction = compareFunction;
   }
 }
-
-obj = new Sorter();
-obj.add(4);
-obj.add(3);
-obj.add(7);
-obj.add(1);
-obj.add(12);
-obj.sort([0,1,2,3,4]);
-console.log(obj.toArray());
-const reverseCompareFunction = (left, right) => right - left;
-obj.setComparator(reverseCompareFunction);
-obj.sort([0,1,2,3,4]);
-console.log(obj.toArray());
 
 module.exports = Sorter;
